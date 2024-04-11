@@ -151,12 +151,12 @@ const LoggedInWrapper = ({isAuthorized, authorizing, logout, match, location}) =
     if (!isAuthorized) {
         return (
             <Redirect
-                to={{
+                to={
                     pathname: '/api/login',
                     state: {
                         from: location
                     }
-                }}
+                }
             />
         );
     }
