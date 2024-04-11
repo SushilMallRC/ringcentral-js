@@ -1,10 +1,9 @@
-name: GitHub pages
+name: Publish JSDoc to GitHub Pages
 
 on:
     push:
         branches:
-            - master
-            - addJsDocs
+            - main
 
 jobs:
     deploy:
@@ -13,15 +12,11 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
-            - name: Build
-              uses: andstor/jsdoc-action@v1
-              with:
-                  source_dir: ./sdk/src
-                  output_dir: ./sdk/out
-                  template: jaguarjs-jsdoc
-                  front_page: README.md
+            - name: Generate JSDoc
+              run: npx jsdoc -c jsdoc.json
 
-            - name: Deploy
+            - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: ./out
