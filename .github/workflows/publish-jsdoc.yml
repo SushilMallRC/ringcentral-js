@@ -17,7 +17,7 @@ jobs:
               uses: andstor/jsdoc-action@v1
               with:
                   source_dir: ./sdk/src
-                  output_dir: ./out
+                  output_dir: ./sdk/out
                   template: minami
                   front_page: README.md
 
