@@ -3,6 +3,7 @@
     "ringcentral-typescript"
   ],
   "rules": {
+    "react/require-default-props": "off",
     "import/default": "off",
     "import/no-unresolved": "off", // to capture direct deps in TS
     "import/no-default-export": "off",
