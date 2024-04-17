@@ -13,16 +13,22 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
+            - name: Install Dependencies
+              run: npm install -g typescript
+
+            - name: Generate Javascript Directory
+              run: tsc --outDir dist
+
             - name: Build
               uses: andstor/jsdoc-action@v1
               with:
-                  source_dir: ./sdk/lib
-                  output_dir: ./sdk/out
+                  source_dir: ./dist
+                  output_dir: ./out
                   recurse: true
                   template: minami
 
             - name: Deploy
               uses: peaceiris/actions-gh-pages@v4
               with:
-                  publish_dir: .sdk//out
+                  publish_dir: ./out
                   deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
