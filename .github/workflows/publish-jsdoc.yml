@@ -21,7 +21,7 @@ jobs:
             - name: Print Current WOrking Before and after
               run: pwd && cd .. && pwd
             - name: Install Dependencies
-              run: npm i && node -v && tsc -v
+              run: npm i && node -v && tsc -v && npm -v
 
             - name: Generate Javascript Directory
               run: rm -rf dist && tsc --outDir dist
