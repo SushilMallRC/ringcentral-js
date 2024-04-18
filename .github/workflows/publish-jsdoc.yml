@@ -19,12 +19,12 @@ jobs:
                   cache: 'npm'
             - run: npm ci
             - name: Print Current WOrking Before and after
-              run: pwd
+              run: pwd && cd .. && pwd
             - name: Install Dependencies
               run: npm i && node -v && tsc -v
 
             - name: Generate Javascript Directory
-              run: tsc --outDir dist
+              run: rm -rf dist && tsc --outDir dist
 
             - name: Build
               uses: andstor/jsdoc-action@v1
