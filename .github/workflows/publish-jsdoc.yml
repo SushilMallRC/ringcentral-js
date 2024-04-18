@@ -18,13 +18,11 @@ jobs:
                   node-version: 20
                   cache: 'npm'
             - run: npm ci
-            - name: Print Current WOrking Before and after
-              run: pwd && cd .. && pwd
             - name: Install Dependencies
               run: npm i  && node -v && tsc -v && npm -v
 
             - name: Generate Javascript Directory
-              run: rm -rf dist && npm i @ringcentral/sdk && tsc --outDir dist
+              run: rm -rf dist && npm i && tsc -p tsconfig.json --outDir dist
 
             - name: Build
               uses: andstor/jsdoc-action@v1
