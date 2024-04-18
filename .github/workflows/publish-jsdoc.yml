@@ -19,7 +19,7 @@ jobs:
                   cache: 'npm'
             - run: npm ci
             - name: Install Dependencies
-              run: npm i  && node -v && tsc -v && npm -v
+              run: cd .. && pwd && npm i  && node -v && tsc -v && npm -v
             - name: Build Project
               run: npm run build
             - name: Generate Javascript Directory
