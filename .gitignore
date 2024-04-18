@@ -7,7 +7,6 @@
 .nyc_output
 build
 coverage
-dist
 es6
 lib
 lerna-debug.*
