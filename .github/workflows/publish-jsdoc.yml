@@ -18,12 +18,10 @@ jobs:
                   node-version: 20
                   cache: 'npm'
             - run: npm ci
-
+            - name: Print Current WOrking Before and after
+              run: pwd && cd .. && pwd
             - name: Install Dependencies
               run: npm install -g typescript && npm i && node -v && tsc -v
-
-            - name: Print Current WOrking
-              run: pwd
 
             - name: Generate Javascript Directory
               run: rm -rf dist && tsc --outDir dist
