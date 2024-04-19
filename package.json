@@ -13,7 +13,7 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix",
     "lint:all": "npm run lint './*/src/**/*.ts*'",
     "lint:staged": "lint-staged",
-    "docs": "typedoc --out docs ./sdk/src"
+    "docs": "typedoc --out docs ./sdk/src ./react/src"
   },
   "workspaces": [
     "api-test",
