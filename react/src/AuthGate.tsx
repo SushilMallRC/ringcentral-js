@@ -8,18 +8,27 @@ function getDisplayName(WrappedComponent) {
 
 const delay = () => new Promise(res => setTimeout(res, 0));
 
+/**
+ * interface for Authgate
+ */
 export interface AuthGateState {
     isAuthorized: boolean;
     authorizing: boolean;
     authError: null | Error;
 }
 
+/**
+ * Define interface for AuthGateRenderProps that's extende AuthGate State
+ */
 export interface AuthGateRenderProps extends AuthGateState {
     loginUrl: (options: any) => string;
     parseRedirect: (search: string) => Promise<any>;
     logout: () => Promise<any>;
 }
 
+/**
+ * Interface for AuthGateProps
+ */
 export interface AuthGateProps {
     sdk: SDK;
     ensure?: boolean;
