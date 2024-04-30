@@ -12,13 +12,12 @@ jobs:
         node-version: [16.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
-          scope: '@octocat'
       - run: npm install
       - run: DEBUG=eslint:cli-engine npm run lint:all
       - run: npm run build
@@ -34,17 +33,25 @@ jobs:
       contents: write # for release
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
-          scope: '@octocat'
       - run: npm install
       - run: npm run build
-      - run: npm ci
-      - run: npm publish
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      - run: git status && git stash
+      - run: npm run publish:release -- --canary --preid=$BRANCH.$GITHUB_RUN_ID.$GITHUB_RUN_NUMBER --dist-tag=$BRANCH --yes
+        env:
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm run publish:release -- $TAG --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release
