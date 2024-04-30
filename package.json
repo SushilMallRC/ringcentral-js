@@ -1,5 +1,5 @@
 {
-  "name": "@ringcentral/smjs",
+  "name": "@rc/smjs",
   "version": "5.0.0",
   "scripts": {
     "clean": "lerna run clean && lerna clean --yes && rm -rf node_modules",
@@ -33,6 +33,7 @@
   },
   "author": "",
   "license": "ISC",
+  "private": false,
   "bugs": {
     "url": "https://github.com/SushilMallRC/ringcentral-js/issues"
   },

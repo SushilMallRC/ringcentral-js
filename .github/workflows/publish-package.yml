@@ -44,7 +44,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release
