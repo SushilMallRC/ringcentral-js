@@ -27,7 +27,6 @@
     "subscriptions-deprecated",
     "utils"
   ],
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SushilMallRC/ringcentral-js.git"
