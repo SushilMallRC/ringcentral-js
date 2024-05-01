@@ -44,6 +44,7 @@ jobs:
       - run: git status && git stash
       - run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
       - run: npm run publish:release -- $TAG --yes --dry-run
+        if: ${{ env.TAG != '' && !contains(env.TAG, '/')}}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release
