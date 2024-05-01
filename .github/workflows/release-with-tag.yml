@@ -22,17 +22,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
       - run: npm run build
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
       - run: git status && git stash
-      - run: npm run publish:release -- --canary --preid=$BRANCH --dist-tag=$BRANCH --yes
-        env:
-          BRANCH: ${{ steps.extract_branch.outputs.branch }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: echo $TAG
       - run: npm run publish:release -- $TAG --yes
+        if: ${{ env.TAG != '' && !contains(env.TAG, '/') }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release
