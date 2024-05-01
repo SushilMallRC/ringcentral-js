@@ -1,11 +1,9 @@
-name: Release Package
-on:
-  push:
-    tags:
-      - '*'
+name: CI Pipeline
+
+on: [push, pull_request]
 
 jobs:
-  Test:
+  test:
     runs-on: ubuntu-latest # Firefox in it
     strategy:
       matrix:
@@ -23,8 +21,21 @@ jobs:
       - run: npm run build
       - run: npm run test:browser
       - run: npm run test:coverage
-  Release:
-    needs: Test
+      - run: cat */coverage/lcov.info
+      - name: Coveralls SDK
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          base-path: ./sdk
+          flag-name: sdk
+          parallel: true
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
+  build:
+    needs: test
     runs-on: ubuntu-latest # Firefox in it
     strategy:
       matrix:
@@ -46,7 +57,6 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
       - run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-      - run: git status && git stash
       - run: npm run publish:release -- --canary --preid=$BRANCH.$GITHUB_RUN_ID.$GITHUB_RUN_NUMBER --dist-tag=$BRANCH --yes
         env:
           BRANCH: ${{ steps.extract_branch.outputs.branch }}
@@ -71,5 +81,5 @@ jobs:
             subscriptions-deprecated/dist/ringcentral-subscriptions-deprecated.min.js
             subscriptions-deprecated/dist/ringcentral-subscriptions-deprecated.min.js.map
         env:
-          GITHUB_REPOSITORY: SushilMallRC/ringcentral-js
+          GITHUB_REPOSITORY: ringcentral/ringcentral-js
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
